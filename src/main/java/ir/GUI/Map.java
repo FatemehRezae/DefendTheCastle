@@ -1,24 +1,19 @@
 package ir.GUI;
 
 import ir.GameElements.Land;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Map {
+    private String name;
     private String add;
-    private int x = 120;
+    private int x = 0;
     private int y = 205;
     private Pane pane;
-//    ImageView rightKing = new ImageView(new Image("src/main/resources/Towers/RightCastle.png"));
-//            rightKing.setTranslateX(880);
-//            rightKing.setTranslateY(260);
-//            rightKing.setFitHeight(40);
-//            rightKing.setFitWidth(40);
-//            pane.getChildren().add(rightKing);
+
     public Map(String add, Pane pane) {
         this.add = add;
         this.pane = pane;
@@ -38,6 +33,8 @@ public class Map {
 
         } catch (IOException e) {
             System.out.println("A problem occurred while trying to read the map file\n" + e.getMessage());
+        }finally {
+            drawCastles();
         }
     }
 
@@ -84,9 +81,42 @@ public class Map {
                 this.x = x + 20;
                 break;
             case ';':
-                this.y =y + 20;
-                x = 120;
+                this.y = y + 20;
+                x = 0;
                 break;
+        }
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void drawCastles() {
+        String string;
+        String nextStr;
+        string = "src/main/resources/Towers/leftSpringCastle.png";
+        nextStr = "src/main/resources/Towers/rightSpringCastle.png";
+        if (name.equals("Winter")) {
+            string = "src/main/resources/Towers/leftIceCastle.png";
+            nextStr = "src/main/resources/Towers/rightIceCastle.png";
+        }
+        try {
+            Image image = new Image(new FileInputStream(string));
+            ImageView leftCastle = new ImageView(image);
+            leftCastle.setFitWidth(130);
+            leftCastle.setFitHeight(130);
+            leftCastle.setTranslateX(0);
+            leftCastle.setTranslateY(208);
+            pane.getChildren().add(leftCastle);
+            Image image1 = new Image(new FileInputStream(nextStr));
+            ImageView rightCastle = new ImageView(image1);
+            rightCastle.setFitWidth(130);
+            rightCastle.setFitHeight(130);
+            rightCastle.setTranslateX(865);
+            rightCastle.setTranslateY(208);
+            pane.getChildren().add(rightCastle);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

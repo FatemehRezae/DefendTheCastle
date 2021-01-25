@@ -22,8 +22,7 @@ public class Menu {
     private Map map;
     public void start(Pane pane, Stage stage,Map map){
         this.map = map;
-        Background background = null;
-        background = getBackground(new File("src/main/resources/Wallpaper.png"));
+        Background background = getBackground(new File("src/main/resources/Wallpaper.png"));
         pane.setBackground(background);
         Button continUe = new Button("Continue");
         Button newGame = new Button("New Game");
@@ -50,6 +49,14 @@ public class Menu {
                 }
             }
         });
+        continUe.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                pane.setBackground(Background.EMPTY);
+                pane.getChildren().clear();
+                map.readMapFile();
+            }
+        });
         newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -61,7 +68,9 @@ public class Menu {
         spring.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                map.setName("Spring");
                 map.choseMap("src/main/resources/map/map1.txt");
+
             }
         });
         winter.setOnAction(new EventHandler<ActionEvent>() {
@@ -69,6 +78,7 @@ public class Menu {
             public void handle(ActionEvent actionEvent) {
 
                 map.choseMap("src/main/resources/map/map2.txt");
+                map.setName("Winter");
             }
         });
     }
