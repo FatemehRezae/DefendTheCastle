@@ -18,5 +18,7 @@ public class Director {
         map = new Map("src/main/resources/map/map1.txt",pane);
         map.setName("Spring");
         menu.start(pane,stage,map);
+
     }
+
 }

@@ -11,7 +11,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -20,8 +23,10 @@ import java.io.FileNotFoundException;
 
 public class Menu {
     private Map map;
+    private Pane pane;
     public void start(Pane pane, Stage stage,Map map){
         this.map = map;
+        this.pane = pane;
         Background background = getBackground(new File("src/main/resources/Wallpaper.png"));
         pane.setBackground(background);
         Button continUe = new Button("Continue");
@@ -92,5 +97,14 @@ public class Menu {
             e.printStackTrace();
         }
         return new Background(backgroundFill);
+    }
+    public void setUp(){
+        Text player1 = new Text(20,30,"Player One");
+        player1.setFill(Color.YELLOW);
+        player1.setFont(Font.font ("Agency FB", 30));
+        Text player2 = new Text(880,400,"Player Two");
+        player2.setFill(Color.RED);
+        player2.setFont(Font.font ("Agency FB", 30));
+        pane.getChildren().addAll(player1,player2);
     }
 }

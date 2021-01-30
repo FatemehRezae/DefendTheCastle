@@ -1,6 +1,9 @@
 package ir.GUI;
 
+import ir.GameElements.Elixir;
 import ir.GameElements.Land;
+import ir.GameElements.SoldierRun;
+import ir.Soldier;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -35,6 +38,14 @@ public class Map {
             System.out.println("A problem occurred while trying to read the map file\n" + e.getMessage());
         }finally {
             drawCastles();
+            Elixir e = new Elixir(300,100,pane);
+            Elixir q = new Elixir(300,400,pane);
+            e.start();
+            q.start();
+            Soldier a = new Soldier("Archer",2,5,2,1,1,500,128);
+            a.draw(pane);
+            SoldierRun b = new SoldierRun(a);
+            b.start();
         }
     }
 

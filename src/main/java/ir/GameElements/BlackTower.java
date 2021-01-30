@@ -20,4 +20,5 @@ public class BlackTower extends Tower {
             e.printStackTrace();
         }
     }
+
 }
