@@ -3,46 +3,100 @@ package ir;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Soldier {
+    private int limit;
     private int x;
     private int y;
     private final String name;
-    private final int elixir;
+    private  int elixir;
     private int health;
     private int speed;
-    private final int damage;
-    private final int range;
+    private  int damage;
+    private  int range;
     private Image image;
     private ImageView imgV;
+    private String address;
 
-    public Soldier(String name, int elixir, int health, int speed, int damage, int range, int x, int y) {
+    public Soldier(String name,String address, int x, int y) {
         this.name = name;
-        this.elixir = elixir;
-        this.health = health;
-        this.speed = speed;
-        this.damage = damage;
-        this.range = range;
         this.x = x;
         this.y = y;
+        this.address = address;
+        setStuff();
     }
-
+    public void setStuff(){
+        if(name.equals("Prince")){
+            elixir = 30;
+            health = 600;
+            speed = 2;
+            damage = 400;
+            range = 1;
+        }
+        if(name.equals("Witch")){
+            elixir = 15;
+            health = 300;
+            speed = 1;
+            damage = 200;
+            range = 2;
+        }
+        if(name.equals("HogRider")){
+            elixir = 10;
+            health = 200;
+            speed = 3;
+            damage = 250;
+            range = 1;
+        }
+        if(name.equals("Dragon")){
+            elixir = 10;
+            health = 1000;
+            speed = 1;
+            damage = 150;
+            range = 1;
+        }
+        if(getX() < 500)
+            speed *=-1;
+    }
     public void draw(Pane pane) {
         try {
-            image = new Image(new FileInputStream("src/main/resources/Walking Soldiers/pakShodeh/photo_2021-01-27_17-59-36.png"));
+            image = new Image(new FileInputStream(address));
             imgV = new ImageView(image);
             imgV.setTranslateX(x);
             imgV.setTranslateY(y);
-            imgV.setFitHeight(30);
-            imgV.setFitWidth(30);
+            imgV.setFitHeight(60);
+            imgV.setFitWidth(60);
             pane.getChildren().add(imgV);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
 
         }
+    }
+    public static int cost(String a){
+        if(a.equals("Prince")){
+            return  30;
+        }
+        if(a.equals("Witch")){
+            return  15;
+        }
+        if(a.equals("HogRider")){
+            return  10;
+
+        }
+        if(a.equals("Dragon")){
+            return   10;
+
+        }
+        return 0;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public int getLimit() {
+        return limit;
     }
 
     public void setX(int x) {
@@ -96,4 +150,5 @@ public class Soldier {
     public int getRage() {
         return range;
     }
+
 }

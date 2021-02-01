@@ -1,4 +1,4 @@
-package ir.GUI;
+package ir;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,9 +22,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Menu {
+    private Director d;
     private Map map;
     private Pane pane;
-    public void start(Pane pane, Stage stage,Map map){
+    public void start(Pane pane, Stage stage, Map map, Director d){
+        this.d = d;
         this.map = map;
         this.pane = pane;
         Background background = getBackground(new File("src/main/resources/Wallpaper.png"));
@@ -60,6 +62,7 @@ public class Menu {
                 pane.setBackground(Background.EMPTY);
                 pane.getChildren().clear();
                 map.readMapFile();
+                d.Start();
             }
         });
         newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -68,6 +71,7 @@ public class Menu {
                 pane.setBackground(Background.EMPTY);
                 pane.getChildren().clear();
                 map.readMapFile();
+                d.Start();
             }
         });
         spring.setOnAction(new EventHandler<ActionEvent>() {
@@ -81,7 +85,6 @@ public class Menu {
         winter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
                 map.choseMap("src/main/resources/map/map2.txt");
                 map.setName("Winter");
             }

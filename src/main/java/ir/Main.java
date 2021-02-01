@@ -1,6 +1,5 @@
 package ir;
 
-import ir.Logic.Director;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -11,7 +10,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1000, 560, Color.BLACK);
-        Director director = new Director(root, stage);
+        Director director = new Director(root, stage,scene);
         stage.setResizable(false);
         stage.setTitle("Defend-Castle");
         stage.setScene(scene);

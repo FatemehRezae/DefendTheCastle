@@ -1,25 +1,35 @@
 package ir.GameElements;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public abstract class Tower {
     private int health;
     private int damage;
     private int range;
     private Image image;
-    private int rowIndex ;
-    private int columnIndex;
+    private int y ;
+    private int x;
+    private ImageView imageView;
 
-    public Tower(int health, int damage, int range, Image image, int rowIndex, int columnIndex) {
+    public Tower(int health, int damage, int range, int x, int y) {
         this.health = health;
         this.damage = damage;
         this.range = range;
-        this.image = image;
-        this.rowIndex = rowIndex;
-        this.columnIndex = columnIndex;
+        this.x = x;
+        this.y = y;
     }
 
-    public abstract void draw();
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public abstract void draw(Pane p);
     public void setHealth(int health) {
         this.health = health;
     }
@@ -36,12 +46,12 @@ public abstract class Tower {
         this.range = range;
     }
 
-    public void setRowIndex(int rowIndex) {
-        this.rowIndex = rowIndex;
+    public int getY() {
+        return y;
     }
 
-    public void setColumnIndex(int columnIndex) {
-        this.columnIndex = columnIndex;
+    public int getX() {
+        return x;
     }
 
     public int getHealth() {
@@ -60,11 +70,11 @@ public abstract class Tower {
         return range;
     }
 
-    public int getRowIndex() {
-        return rowIndex;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public int getColumnIndex() {
-        return columnIndex;
+    public void setX(int x) {
+        this.x = x;
     }
 }

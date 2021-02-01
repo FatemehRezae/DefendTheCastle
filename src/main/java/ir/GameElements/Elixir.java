@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+
 
 public class Elixir extends Thread {
     private int x;
@@ -24,19 +24,23 @@ public class Elixir extends Thread {
         draw();
     }
 
+    public void soldierMaking(int a) {
+        cost -= a;
+        imageView.setFitWidth(cost);
+    }
     public void soldierMaking(Soldier a) {
         cost -= a.getElixir();
         imageView.setFitWidth(cost);
     }
 
     public void run() {
-        while (cost <= 100) {
+        while (cost < 100) {
             cost += 10;
             System.out.println("***********" + cost);
             imageView.setTranslateX(x);
-            imageView.setFitWidth(cost*5);
+            imageView.setFitWidth(cost*10);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
@@ -52,7 +56,9 @@ public class Elixir extends Thread {
             imageView.setTranslateX(x);
             imageView.setTranslateY(y);
             imageView.setFitHeight(50);
+            imageView.setFitWidth(cost * 5);
             imageView.setFitWidth(cost*5);
+
             pane.getChildren().add(imageView);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
