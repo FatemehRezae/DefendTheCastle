@@ -6,14 +6,14 @@ import ir.GameElements.Tower;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+
 
 import java.util.ArrayList;
 
 public class Player {
     private Starter starter;
-    private int firstWin;
-    private int secondWin;
+    private int firstWin = 0;
+    private int secondWin = 0;
     private int x;
     private String soldierName;
     private String address;
@@ -169,17 +169,6 @@ public class Player {
 
     }
 
-    //    public void winChek() {
-//        int i = 0;
-//        if (num == 1) {
-//
-//            for (Soldier s : soldiers
-//            ) {
-//                if (s.getImageView().getX() == 200)
-//                    i++;
-//            }
-//        }
-//    }
     public void cards(int y) {
         ShowCards a = new ShowCards(360, y, "src/main/resources/soldiers/BabyDragonCard.png", pane);
         ShowCards b = new ShowCards(415, y, "src/main/resources/soldiers/HogRiderCard.png", pane);
@@ -216,28 +205,36 @@ public class Player {
                 for (int i = 0; i < soldiers.size() ;i ++) {
                     if (s.getImageView().getX() <= 180) {
                         firstWin++;
-                    }
-                    if (firstWin == 3) {
-                        starter.win(this);
                         break;
                     }
+                }
+                if (firstWin !=0) {
+                    for (int i = 0; i < soldiers.size() ;i ++) {
+                        soldiers.get(i).isDead();
+                        deadSoldier(soldiers.get(i));
+                    }
+                    starter.win(this);
+                    Thread.currentThread().stop();
+
                 }
             } else if(num == 2) {
                 for (int i = 0; i < soldiers.size() ;i ++) {
                     if (s.getImageView().getX() >= 980) {
                         secondWin++;
-                    }
-                    if (secondWin == 3) {
-                        i = 0;
-                        soldiers.get(i).isDead();
-                        deadSoldier(soldiers.get(i));
                         break;
                     }
+                }
+                if (secondWin != 0) {
+                    for (int i = 0; i < soldiers.size() ; i++) {
+                        soldiers.get(i).isDead();
+                        deadSoldier(soldiers.get(i));
+                    }
+
                 }
             }
 
         }catch (NullPointerException e){
-
+            System.out.println(e.getMessage());
         }
 
     }

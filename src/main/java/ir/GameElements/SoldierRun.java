@@ -26,7 +26,7 @@ public class SoldierRun extends Thread {
                 while (true) {
                     if (a.getX() > a.getLimit()) {
                         r = a.getX() - a.getSpeed();
-//                    System.out.println("_________________________________________");
+                    System.out.println("");
                         a.setX(r);
                         a.getImageView().setTranslateX(a.getX());
                         try {
@@ -41,11 +41,11 @@ public class SoldierRun extends Thread {
                             if (a.getPlayer().getTargets().get(0).getHealth() <= 0) {
                                 a.getPlayer().deadTarget(a.getPlayer().getTargets().get(0));
                             }
-//                        System.out.println("____________________________" + SoldierHealthLeft);
+                        System.out.println("" + SoldierHealthLeft);
                             if (!a.getPlayer().getTargets().isEmpty()) {
                                 SoldierHealthLeft = a.getHealth() - a.getPlayer().getTargets().get(0).getDamage();
                                 a.setHealth(SoldierHealthLeft);
-//                            System.out.println("____________________________" + SoldierHealthLeft);
+                            System.out.println("" + SoldierHealthLeft);
                             } else a.getPlayer().winCount(a);
                             if (SoldierHealthLeft <= 0) {
                                 a.getPlayer().deadSoldier(a);
@@ -64,7 +64,7 @@ public class SoldierRun extends Thread {
                 while (true) {
                     if (a.getX() < a.getLimit()) {
                         r = a.getX() - a.getSpeed();
-//                    System.out.println("_______________________________________________________");
+                    System.out.println("");
                         a.setX(r);
                         a.getImageView().setTranslateX(a.getX());
                         try {
@@ -79,11 +79,11 @@ public class SoldierRun extends Thread {
                             if (a.getPlayer().getTargets().get(0).getHealth() <= 0) {
                                 a.getPlayer().deadTarget(a.getPlayer().getTargets().get(0));
                             }
-//                        System.out.println("____________________________" + SoldierHealthLeft);
+                        System.out.println("" + SoldierHealthLeft);
                             if (!a.getPlayer().getTargets().isEmpty()) {
                                 SoldierHealthLeft = a.getHealth() - a.getPlayer().getTargets().get(0).getDamage();
                                 a.setHealth(SoldierHealthLeft);
-//                            System.out.println("____________________________" + SoldierHealthLeft);
+                            System.out.println("" + SoldierHealthLeft);
                             } else a.getPlayer().winCount(a);
                             if (SoldierHealthLeft <= 0) {
                                 a.getPlayer().deadSoldier(a);

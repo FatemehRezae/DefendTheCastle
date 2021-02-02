@@ -5,15 +5,12 @@ import ir.GameElements.ElectroTower;
 import ir.GameElements.Elixir;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Starter {
+    private Main main;
     private  Pane pane;
     private  Stage stage;
     private Scene scene;
@@ -21,6 +18,10 @@ public class Starter {
     private Map map;
     private Elixir e;
     private Elixir q;
+
+    public Starter(Main main) {
+        this.main = main;
+    }
 
     public void initializeStarter(Pane pane, Stage stage, Scene scene){
         this.scene = scene;
@@ -61,15 +62,19 @@ public class Starter {
         return pane;
     }
 
-    public void win(Player plyer) {
+    public void win(Player player) {
         Platform.runLater(() -> {
             e.stop();
             q.stop();
             pane.getChildren().clear();
-            if (plyer.getNum() == 1)
-                System.out.println("Right Playr Won!");
-            else
+            if (player.getNum() == 1) {
+                System.out.println("Right Player Won!");
+                main.getSave().save("Right Player Won!");
+            }
+            else {
                 System.out.println("Left Player Won!");
+                main.getSave().save("Left Player Won!");
+            }
             initializeStarter(pane,stage,scene);
             menu.start(pane,stage,map,this);
         });
