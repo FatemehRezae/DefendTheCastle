@@ -9,12 +9,10 @@ import java.io.FileNotFoundException;
 
 public class ShowCards {
 
-    private int x;
-    private int y;
-    private String address;
-    private Pane pane;
-    private Image image;
-    private ImageView imgV1;
+    private final int x;
+    private final int y;
+    private final String address;
+    private final Pane pane;
 
     public ShowCards(int x, int y, String address, Pane pane) {
         this.x = x;
@@ -26,12 +24,12 @@ public class ShowCards {
 
     private void draw() {
         try {
-            image = new Image(new FileInputStream(address));
-            imgV1 = new ImageView(image);
+            Image image = new Image(new FileInputStream(address));
+            ImageView imgV1 = new ImageView(image);
             imgV1.setTranslateX(x);
             imgV1.setTranslateY(y);
-            imgV1.setFitHeight(40);
-            imgV1.setFitWidth(40);
+            imgV1.setFitHeight(50);
+            imgV1.setFitWidth(50);
             pane.getChildren().add(imgV1);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -39,9 +37,6 @@ public class ShowCards {
         }
     }
 
-    public int getX() {
-        return x;
-    }
 
     public int getY() {
         return y;
@@ -55,11 +50,4 @@ public class ShowCards {
         return pane;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public ImageView getImgV1() {
-        return imgV1;
-    }
 }

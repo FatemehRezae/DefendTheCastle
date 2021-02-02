@@ -7,10 +7,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1000, 560, Color.BLACK);
-        Director director = new Director(root, stage,scene);
+        Starter starter = new Starter();
+        starter.initializeStarter(root, stage,scene);
         stage.setResizable(false);
         stage.setTitle("Defend-Castle");
         stage.setScene(scene);

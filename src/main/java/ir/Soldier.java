@@ -1,5 +1,6 @@
 package ir;
 
+import ir.GameElements.SoldierRun;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -7,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Soldier {
+    private final Player player;
     private int limit;
     private int x;
     private int y;
@@ -16,22 +18,28 @@ public class Soldier {
     private int speed;
     private  int damage;
     private  int range;
-    private Image image;
     private ImageView imgV;
-    private String address;
+    private final String address;
+    private SoldierRun soldierRun;
 
-    public Soldier(String name,String address, int x, int y) {
+    public Soldier(String name,String address, int x, int y,Player player) {
+        this.player = player;
         this.name = name;
         this.x = x;
         this.y = y;
         this.address = address;
         setStuff();
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public void setStuff(){
         if(name.equals("Prince")){
             elixir = 30;
             health = 600;
-            speed = 2;
+            speed = 5;
             damage = 400;
             range = 1;
         }
@@ -58,10 +66,16 @@ public class Soldier {
         }
         if(getX() < 500)
             speed *=-1;
+
+    }
+    public void isDead(){
+        imgV.setTranslateX(-500);
+        soldierRun.stop();
+
     }
     public void draw(Pane pane) {
         try {
-            image = new Image(new FileInputStream(address));
+            Image image = new Image(new FileInputStream(address));
             imgV = new ImageView(image);
             imgV.setTranslateX(x);
             imgV.setTranslateY(y);
@@ -95,6 +109,11 @@ public class Soldier {
         this.limit = limit;
     }
 
+    public void makeSoldierRun() {
+        soldierRun = new SoldierRun(this, player.getNum());
+        soldierRun.start();
+    }
+
     public int getLimit() {
         return limit;
     }
@@ -121,14 +140,6 @@ public class Soldier {
 
     public void setHealth(int health) {
         this.health = health;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public String getSoldierName() {
-        return name;
     }
 
     public int getElixir() {

@@ -1,14 +1,12 @@
 package ir;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
@@ -22,12 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Menu {
-    private Director d;
-    private Map map;
     private Pane pane;
-    public void start(Pane pane, Stage stage, Map map, Director d){
-        this.d = d;
-        this.map = map;
+    public void start(Pane pane, Stage stage, Map map, Starter d){
         this.pane = pane;
         Background background = getBackground(new File("src/main/resources/Wallpaper.png"));
         pane.setBackground(background);
@@ -48,46 +42,31 @@ public class Menu {
         exit.setTranslateY(465);
 
         pane.getChildren().addAll(continUe,exit,newGame,mapChose);
-        exit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                    stage.close();
-                }
+        exit.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                Platform.exit();
             }
         });
-        continUe.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                pane.setBackground(Background.EMPTY);
-                pane.getChildren().clear();
-                map.readMapFile();
-                d.Start();
-            }
+        continUe.setOnMouseClicked(mouseEvent -> {
+            pane.setBackground(Background.EMPTY);
+            pane.getChildren().clear();
+            map.readMapFile();
+            d.Start();
         });
-        newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                pane.setBackground(Background.EMPTY);
-                pane.getChildren().clear();
-                map.readMapFile();
-                d.Start();
-            }
+        newGame.setOnMouseClicked(mouseEvent -> {
+            pane.setBackground(Background.EMPTY);
+            pane.getChildren().clear();
+            map.readMapFile();
+            d.Start();
         });
-        spring.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                map.setName("Spring");
-                map.choseMap("src/main/resources/map/map1.txt");
+        spring.setOnAction(actionEvent -> {
+            map.setName("Spring");
+            map.choseMap("src/main/resources/map/map1.txt");
 
-            }
         });
-        winter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                map.choseMap("src/main/resources/map/map2.txt");
-                map.setName("Winter");
-            }
+        winter.setOnAction(actionEvent -> {
+            map.choseMap("src/main/resources/map/map2.txt");
+            map.setName("Winter");
         });
     }
 

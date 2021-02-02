@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Land {
-    private String address;
+    private final String address;
     private Image image;
 
     public Land( String address) {

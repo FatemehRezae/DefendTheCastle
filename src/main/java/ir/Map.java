@@ -1,11 +1,13 @@
 package ir;
 
-import ir.GameElements.Elixir;
 import ir.GameElements.Land;
-import ir.GameElements.SoldierRun;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.*;
 
@@ -14,7 +16,7 @@ public class Map {
     private String add;
     private int x = 0;
     private int y = 205;
-    private Pane pane;
+    private final Pane pane;
 
     public Map(String add, Pane pane) {
         this.add = add;
@@ -22,24 +24,49 @@ public class Map {
     }
 
     public void readMapFile() {
+        x =0;
+        y = 205;
         String line;
-        int row = 0;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(add))) {
-            int rowIndex = -1;
             while ((line = bufferedReader.readLine()) != null) {
-                rowIndex++;
                 for (int i = 0; i < line.length(); i++) {
                     mapReader(line.charAt(i));
                 }
             }
-
         } catch (IOException e) {
             System.out.println("A problem occurred while trying to read the map file\n" + e.getMessage());
         }finally {
             drawCastles();
+            initialize();
         }
     }
+    public void initialize(){
+        Canvas canvas = new Canvas(1100, 900);
+        GraphicsContext context = canvas.getGraphicsContext2D();
+        // draw message
+        context.setFont(new Font("Arial Black", 15));
+        context.setLineWidth(2);
+        context.setFill(Color.YELLOW);
+        context.setStroke(Color.ORANGE);
 
+        String text1 = "Left Player";
+        String text2 = "B + C + Space";
+        String text3 = "Right Player";
+        String text4 = "Right + Left + Enter";
+
+// x , y set mishan
+        context.fillText(text1, 30, 400);
+        context.strokeText(text1, 30, 400);
+        context.fillText(text2, 20, 420);
+        context.strokeText(text2, 20, 420);
+
+// x , y set mishan
+        context.fillText(text3, 860, 40);
+        context.strokeText(text3, 860, 40);
+        context.fillText(text4, 830, 60);
+        context.strokeText(text4, 830, 60);
+        pane.getChildren().add(canvas);
+    }
     public void choseMap(String add) {
         this.add = add;
     }

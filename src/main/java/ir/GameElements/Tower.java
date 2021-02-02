@@ -6,11 +6,11 @@ import javafx.scene.layout.Pane;
 
 public abstract class Tower {
     private int health;
-    private int damage;
-    private int range;
+    private final int damage;
+    private final int range;
     private Image image;
     private int y ;
-    private int x;
+    private final int x;
     private ImageView imageView;
 
     public Tower(int health, int damage, int range, int x, int y) {
@@ -34,17 +34,11 @@ public abstract class Tower {
         this.health = health;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
 
     public void setImage(Image image) {
         this.image = image;
     }
 
-    public void setRange(int range) {
-        this.range = range;
-    }
 
     public int getY() {
         return y;
@@ -72,9 +66,5 @@ public abstract class Tower {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
     }
 }

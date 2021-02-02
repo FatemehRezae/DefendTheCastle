@@ -2,15 +2,18 @@ package ir;
 
 import ir.GameElements.Elixir;
 import ir.GameElements.ShowCards;
-import ir.GameElements.SoldierRun;
 import ir.GameElements.Tower;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 public class Player {
+    private Starter starter;
+    private int firstWin;
+    private int secondWin;
     private int x;
     private String soldierName;
     private String address;
@@ -25,7 +28,8 @@ public class Player {
     private Soldier soldier;
     private int i = 0;
 
-    public Player(int num, Pane pane, Elixir elixir, Tower one, Tower two) {
+    public Player(int num, Pane pane, Elixir elixir, Tower one, Tower two, Starter dir) {
+        starter = dir;
         targets = new ArrayList<>();
         targets.add(one);
         targets.add(two);
@@ -36,19 +40,22 @@ public class Player {
         cards = new ArrayList<>();
         keys = new ArrayList<>();
         this.keyEvent = keyEvent;
+        elixir.start();
         setInfo();
     }
 
     public void setLimit(Soldier s) {
-        if(num == 1) {
-            if (targets.get(0).getRange() > s.getRage())
-                s.setLimit(targets.get(0).getX() + 80 + targets.get(0).getRange() );
-            else s.setLimit(targets.get(0).getX() + 80 + s.getRage());
-        }else {
-            if (targets.get(0).getRange() > s.getRage())
+        if (!targets.isEmpty()) {
+            if (num == 1)
+                s.setLimit(targets.get(0).getX() + s.getRage());
+            if (num == 2)
                 s.setLimit(targets.get(0).getX() - (targets.get(0).getRange() + 60));
-            else s.setLimit(targets.get(0).getX() - (s.getRage() + 60));
         }
+        else if (num == 1) {
+            s.setLimit(180);
+            winCount(s);
+        }
+        else if (num == 2) {s.setLimit(980);winCount(s);}
     }
 
     public ArrayList<KeyCode> getKeys() {
@@ -70,7 +77,7 @@ public class Player {
         if (keyEvent.getCode().equals(keys.get(2))) {
             decideAddress();
             if (Soldier.cost(soldierName) <= elixir.getCost()) {
-                soldier = new Soldier(soldierName, address, x, 225);
+                soldier = new Soldier(soldierName, address, x, 225, this);
                 soldiers.add(soldier);
                 soldier.draw(pane);
                 elixir.soldierMaking(soldier.getElixir());
@@ -81,10 +88,29 @@ public class Player {
                         soldier.setLimit(130);
                     else soldier.setLimit(800);
                 }
-                SoldierRun b = new SoldierRun(soldier,num);
-                b.start();
+                soldier.makeSoldierRun();
             }
         }
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void deadSoldier(Soldier a) {
+        soldiers.remove(a);
+    }
+
+    public ArrayList<Soldier> getSoldiers() {
+        return soldiers;
+    }
+
+    public ArrayList<Tower> getTargets() {
+        return targets;
     }
 
     public void decideAddress() {
@@ -120,11 +146,45 @@ public class Player {
         }
     }
 
+    public void deadTarget(Tower t) {
+        try {
+            t.getImageView().setTranslateX(-500);
+            targets.remove(t);
+            if (targets.isEmpty()) {
+                if (num == 1) {
+                    for (Soldier s : soldiers
+                    ) {
+                        soldier.setLimit(180);
+                    }
+                } else {
+                    for (Soldier s : soldiers
+                    ) {
+                        soldier.setLimit(980);
+                    }
+                }
+            }
+        }catch (NullPointerException e){
+
+        }
+
+    }
+
+    //    public void winChek() {
+//        int i = 0;
+//        if (num == 1) {
+//
+//            for (Soldier s : soldiers
+//            ) {
+//                if (s.getImageView().getX() == 200)
+//                    i++;
+//            }
+//        }
+//    }
     public void cards(int y) {
-        ShowCards a = new ShowCards(250, y, "src/main/resources/soldiers/BabyDragonCard.png", pane);
-        ShowCards b = new ShowCards(305, y, "src/main/resources/soldiers/HogRiderCard.png", pane);
-        ShowCards c = new ShowCards(360, y, "src/main/resources/soldiers/PrinceCard.png", pane);
-        ShowCards d = new ShowCards(420, y, "src/main/resources/soldiers/WitchCard.png", pane);
+        ShowCards a = new ShowCards(360, y, "src/main/resources/soldiers/BabyDragonCard.png", pane);
+        ShowCards b = new ShowCards(415, y, "src/main/resources/soldiers/HogRiderCard.png", pane);
+        ShowCards c = new ShowCards(470, y, "src/main/resources/soldiers/PrinceCard.png", pane);
+        ShowCards d = new ShowCards(530, y, "src/main/resources/soldiers/WitchCard.png", pane);
         cards.add(a);
         cards.add(b);
         cards.add(c);
@@ -142,7 +202,7 @@ public class Player {
             cards(50);
         }
         if (num == 2) {
-            x = 120; //??
+            x = 120;
             keys.add(KeyCode.B);
             keys.add(KeyCode.C);
             keys.add(KeyCode.SPACE);
@@ -150,4 +210,35 @@ public class Player {
         }
     }
 
+    public void winCount(Soldier s) {
+        try {
+            if (num == 1) {
+                for (int i = 0; i < soldiers.size() ;i ++) {
+                    if (s.getImageView().getX() <= 180) {
+                        firstWin++;
+                    }
+                    if (firstWin == 3) {
+                        starter.win(this);
+                        break;
+                    }
+                }
+            } else if(num == 2) {
+                for (int i = 0; i < soldiers.size() ;i ++) {
+                    if (s.getImageView().getX() >= 980) {
+                        secondWin++;
+                    }
+                    if (secondWin == 3) {
+                        i = 0;
+                        soldiers.get(i).isDead();
+                        deadSoldier(soldiers.get(i));
+                        break;
+                    }
+                }
+            }
+
+        }catch (NullPointerException e){
+
+        }
+
+    }
 }
