@@ -29,7 +29,6 @@ public class Save {
 
         }
         public void load(){
-
             File file = new File("Score.txt");
             Scanner sc = null;
             try {

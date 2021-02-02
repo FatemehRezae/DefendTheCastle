@@ -67,6 +67,7 @@ public class Player {
         if (keyEvent.getCode().equals(keys.get(0))) {
             if (i < 3) {
                 i++;
+                
             } else i = 0;
         }
         if (keyEvent.getCode().equals(keys.get(1))) {
